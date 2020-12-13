@@ -12,7 +12,6 @@ insomnia
 intellij-idea-ultimate-edition
 libcoap-git
 libcurl-openssl-1.0
-namebench
 ncurses5-compat-libs
 plasma5-applets-redshift-control
 popcorntime-bin
