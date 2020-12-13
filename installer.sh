@@ -7,6 +7,7 @@ trap 'echo "\"${last_command}\" command failed with exit code $?."' EXIT
 #BOOT=/dev/sda1
 #HOME=/dev/sda3
 #SWAP=/dev/sda4
+#DEV=/dev/sda
 
 ROOTMKFS="mkfs.xfs -f"
 BOOTMKFS="mkfs.vfat"
@@ -24,7 +25,7 @@ then
     echo "No home"
 else
     $HOMEMKFS $HOME
-    mkdir /mnt/home =p
+    mkdir /mnt/home -p
     mount $HOME /mnt/home
 fi
 
@@ -43,10 +44,11 @@ printf "[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
 pacstrap /mnt - < pkglist.txt
 
 cp /etc/pacman.d/mirrorlist /mnt/etc/pacman.d/mirrorlist
-cp aurpackages.txt /mnt/tmp/aurpackages.txt
-#cp postinstall.sh /mnt/tmp/postinstall.sh
+mkdir -p /mnt/postinst
+cp aurpackages.txt /mnt/postinst/aurpackages.txt
+cp postinstall.sh /mnt/postinst/postinstall.sh
 genfstab -U /mnt > /mnt/etc/fstab
 
-arch-chroot /mnt postinstall.sh $BOOT
+arch-chroot /mnt /postinst/postinstall.sh $DEV
 
 #reboot
