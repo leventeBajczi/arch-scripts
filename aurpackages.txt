@@ -21,5 +21,4 @@ slack-desktop
 spotify
 teamviewer
 typescript-tools
-unifi
 xorg-font-utils
