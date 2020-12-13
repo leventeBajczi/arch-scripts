@@ -8,14 +8,14 @@ trap 'echo "\"${last_command}\" command failed with exit code $?."' EXIT
 #USERNAME=
 #USERPASSWD=
 
-echo $ROOTPASSWD | passwd
+printf "$ROOTPASSWD\n$ROOTPASSWD" | passwd
 
 useradd -m -G wheel $USERNAME
-echo $USERPASSWD | passwd levente
+printf "$USERPASSWD\n$USERPASSWD" | passwd $USERNAME
 
 echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
-echo $USERPASSWD | sudo -u levente chsh -s /usr/bin/zsh
+echo $USERPASSWD | sudo -u $USERNAME chsh -s /usr/bin/zsh
 
 systemctl enable NetworkManager
 systemctl enable bluetooth
@@ -32,9 +32,9 @@ fi
 
 pacman -Sy
 
-git clone https://aur.archlinux.org/paru.git /tmp/paru && cd /tmp/paru && sudo -u levente makepkg -si --noconfirm
+git clone https://aur.archlinux.org/paru.git /tmp/paru && cd /tmp/paru && chown $USERNAME . -R && sudo -u $USERNAME makepkg -si --noconfirm
 
-paru -S --noconfirm - < /postinst/aurpackages.txt
+sudo -u $USERNAME paru -S --noconfirm - < /postinst/aurpackages.txt
 
 
 exit
