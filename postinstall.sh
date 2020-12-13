@@ -22,10 +22,10 @@ systemctl enable sddm
 
 if [ -z "$1" ]
 then
+    echo "Boot dir not set!"
+else
     grub-install $1 --efi-directory=/boot
     grub-mkconfig -o /boot/grub/grub.cfg
-else
-    echo "Boot dir not set!"
 fi
 
 git clone https://aur.archlinux.org/paru.git /tmp/paru && cd /tmp/paru && makepkg -si
