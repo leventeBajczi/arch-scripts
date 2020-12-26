@@ -4,5 +4,6 @@
 4. Run installer.sh
 
 
-Necessary packages: base base-devel git grub efibootmgr networkmanager sddm bluetooth
+Necessary packages: base base-devel git grub linux efibootmgr networkmanager sddm bluetooth
+
 Remove libvirtd from postinst if not needed
